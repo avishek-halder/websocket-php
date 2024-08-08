@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Client</title>
+</head>
+<body>
+    <input type="text" id="message" placeholder="Type your message here">
+    <button onclick="sendMessage()">Send</button>
+
+    <div id="output"></div>
+
+    <script>
+        var ws = new WebSocket("ws://127.0.0.1:8080");
+
+        ws.onopen = function() {
+            document.getElementById("output").innerHTML += "Connected to WebSocket server<br>";
+        };
+
+        ws.onmessage = function(evt) {
+            var received_msg = evt.data;
+            document.getElementById("output").innerHTML += "Message received: " + received_msg + "<br>";
+        };
+
+        function sendMessage() {
+            var message = document.getElementById("message").value;
+            ws.send(JSON.stringify({name: "User", message: message}));
+        }
+    </script>
+</body>
+</html>
